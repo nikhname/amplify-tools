@@ -33,9 +33,11 @@ TODO: Add long description of the pod here.
   s.source_files = 'Classes/*'
   
   s.script_phase = {
-    :name => 'Install CLI',
+    :name => 'Install Amplify CLI',
     :script =>
-'set -e
+'!/bin/bash
+
+set -e
 
 if ! which node > /dev/null; then
   echo "warning: node is not installed. Vist https://nodejs.org/en/download/ to install it"
