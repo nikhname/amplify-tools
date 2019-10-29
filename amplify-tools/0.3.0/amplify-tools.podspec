@@ -45,7 +45,7 @@ else
   echo "codegen goes here"
 fi
 fi',
-    :execution_position => :after_compile
+    :execution_position => :before_compile
   }
   
   # s.resource_bundles = {
