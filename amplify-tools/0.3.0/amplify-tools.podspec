@@ -34,7 +34,7 @@ TODO: Add long description of the pod here.
   
   s.script_phase = {
     :name => 'Install CLI',
-    :script => 'npm install -g @aws-amplify/cli',
+    :script => 'npm install -g @aws-amplify/cli@3.14',
     :execution_position => :before_compile
   }
   
