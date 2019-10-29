@@ -33,8 +33,8 @@ TODO: Add long description of the pod here.
   s.source_files = 'Classes/*'
   
   s.script_phase = {
-    :name => 'Hello World',
-    :script => 'echo "Hello World"',
+    :name => 'Install CLI',
+    :script => 'npm install -g @aws-amplify/cli',
     :execution_position => :before_compile
   }
   
