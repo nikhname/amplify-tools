@@ -35,9 +35,7 @@ TODO: Add long description of the pod here.
   s.script_phase = {
     :name => 'Install Amplify CLI',
     :script =>
-'!/bin/bash
-
-set -e
+'set -e
 
 if ! which node > /dev/null; then
   echo "warning: node is not installed. Vist https://nodejs.org/en/download/ to install it"
@@ -47,7 +45,7 @@ else
   echo "codegen goes here"
 fi
 fi',
-    :execution_position => :before_compile
+    :execution_position => :after_compile
   }
   
   # s.resource_bundles = {
