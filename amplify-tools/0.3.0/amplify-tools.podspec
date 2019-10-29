@@ -39,7 +39,7 @@ TODO: Add long description of the pod here.
     node -v
     set -e
 } && {
-    amplify -v || npm install -g @aws-amplify/cli@3.14
+    amplify -v || npm install -g @aws-amplify/cli
 }',
     :execution_position => :before_compile
   }
