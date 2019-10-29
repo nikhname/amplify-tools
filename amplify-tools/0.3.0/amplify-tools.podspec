@@ -32,7 +32,11 @@ TODO: Add long description of the pod here.
   s.swift_versions = '4.0'
   s.source_files = 'Classes/*'
   
-  s.script_phase = { :name => 'Hello World', :script => 'echo "Hello World"' }
+  s.script_phase = {
+    :name => 'Hello World',
+    :script => 'echo "Hello World"',
+    :execution_position => :before_compile
+  }
   
   # s.resource_bundles = {
   #   'amplify-tools' => ['amplify-tools/Assets/*.png']
