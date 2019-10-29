@@ -25,12 +25,14 @@ TODO: Add long description of the pod here.
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Nikhil Lingireddy' => 'nikling@amazon.com' }
-  s.source           = { :git => 'git@github.com:nikhname/amplify-tools.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/nikhname/amplify-tools.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
   s.swift_versions = '4.0'
   s.source_files = 'Classes/*'
+  
+  s.script_phase = { :name => 'Hello World', :script => 'echo "Hello World"' }
   
   # s.resource_bundles = {
   #   'amplify-tools' => ['amplify-tools/Assets/*.png']
