@@ -36,15 +36,16 @@ TODO: Add long description of the pod here.
     :name => 'Install Amplify CLI',
     :script =>
 'set -e
+export PATH=~/.npm-global/bin:$PATH
 
 if ! which node > /dev/null; then
   echo "warning: node is not installed. Vist https://nodejs.org/en/download/ to install it"
-else if ! which amplify > /dev/null; then
-  npm install -g @aws-amplify/cli
-else
-  echo "codegen goes here"
 fi
-fi',
+if ! which amplify > /dev/null; then
+  npm install -g @aws-amplify/cli
+fi
+
+echo "skeleton and codegen goes here"',
     :execution_position => :before_compile
   }
   
