@@ -36,12 +36,12 @@ TODO: Add long description of the pod here.
     :name => 'Install Amplify CLI',
     :script =>
 'set -e
-export PATH=~/.npm-global/bin:$PATH
+GLOBALPATH="$(npm bin -g)"
+export PATH=$GLOBALPATH:$PATH
 
 if ! which node > /dev/null; then
   echo "warning: node is not installed. Vist https://nodejs.org/en/download/ to install it"
-fi
-if ! which amplify > /dev/null; then
+elif ! which amplify > /dev/null; then
   npm install -g @aws-amplify/cli
 fi
 
