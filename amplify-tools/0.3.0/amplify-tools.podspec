@@ -36,8 +36,7 @@ TODO: Add long description of the pod here.
     :name => 'Install Amplify CLI',
     :script =>
 'set -e
-GLOBALPATH="$(npm bin -g)"
-export PATH=$GLOBALPATH:$PATH
+export PATH=$PATH:`npm bin -g`
 
 if ! which node > /dev/null; then
   echo "warning: node is not installed. Vist https://nodejs.org/en/download/ to install it"
@@ -46,6 +45,7 @@ elif ! which amplify > /dev/null; then
 fi
 
 amplify-dev init --iosSkeleton
+cd ..
 
 AWSCLOUDFORMATIONCONFIG="{\
 \"configLevel\":\"project\",\
@@ -54,13 +54,15 @@ AWSCLOUDFORMATIONCONFIG="{\
 }"
 
 AMPLIFY="{\
-\"envName\":\"amplifydev\"\
+\"envName\":\"ios\"\
 }"
 PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
 
-if amplifyPush; then
+amplifyPush=false
+
+if $amplifyPush; then
   amplify-dev init --amplify $AMPLIFY --providers $PROVIDERS --yes
 fi',
     :execution_position => :before_compile
