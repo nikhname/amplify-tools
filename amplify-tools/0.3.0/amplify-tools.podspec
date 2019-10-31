@@ -52,7 +52,6 @@ AWSCLOUDFORMATIONCONFIG="{\
 \"useProfile\":true,\
 \"profileName\":\"default\"\
 }"
-
 AMPLIFY="{\
 \"envName\":\"ios\"\
 }"
