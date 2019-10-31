@@ -45,7 +45,24 @@ elif ! which amplify > /dev/null; then
   npm install -g @aws-amplify/cli
 fi
 
-echo "skeleton and codegen goes here"',
+amplify-dev init --iosSkeleton
+
+AWSCLOUDFORMATIONCONFIG="{\
+\"configLevel\":\"project\",\
+\"useProfile\":true,\
+\"profileName\":\"default\"\
+}"
+
+AMPLIFY="{\
+\"envName\":\"amplifydev\"\
+}"
+PROVIDERS="{\
+\"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
+}"
+
+if amplifyPush; then
+  amplify-dev init --amplify $AMPLIFY --providers $PROVIDERS --yes
+fi',
     :execution_position => :before_compile
   }
   
