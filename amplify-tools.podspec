@@ -25,12 +25,57 @@ TODO: Add long description of the pod here.
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Nikhil Lingireddy' => 'nikling@amazon.com' }
-  s.source           = { :git => 'git@github.com:nikhname/amplify-tools.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/nikhname/amplify-tools.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
   s.swift_versions = '4.0'
   s.source_files = 'Classes/*'
+  
+  s.script_phase = {
+    :name => 'Amplify',
+    :script =>
+'set -e
+export PATH=$PATH:`npm bin -g`
+
+if ! which node > /dev/null; then
+  echo "warning: Node is not installed. Vist https://nodejs.org/en/download/ to install it"
+elif ! which amplify > /dev/null; then
+  npm install -g @aws-amplify/cli
+fi
+
+cd ..
+amplify-dev init --iosSkeleton
+
+. amplifyxc.config
+amplifyPush=$push
+amplifyProfile=$profile
+amplifyAccessKey=$accessKeyId
+amplifySecretKey=$secretAccessKey
+amplifyRegion=$region
+amplifyEnvName=$envName
+
+AWSCLOUDFORMATIONCONFIG="{\
+\"configLevel\":\"project\",\
+\"useProfile\":true,\
+\"profileName\":\"${amplifyProfile}\"\
+}"
+AMPLIFY="{\
+\"envName\":\"amplify\"\
+}"
+PROVIDERS="{\
+\"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
+}"
+
+if $amplifyPush; then
+    if test -f ./amplify/.config/local-env-info.json; then
+        amplify-dev push --yes
+    else 
+        amplify-dev init --amplify $AMPLIFY --providers $PROVIDERS --yes
+    fi
+fi',
+    :execution_position => :before_compile
+  }
   
   # s.resource_bundles = {
   #   'amplify-tools' => ['amplify-tools/Assets/*.png']
