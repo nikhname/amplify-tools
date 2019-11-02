@@ -1,6 +1,0 @@
-use_frameworks!
-target 'amplify-tools_Tests' do
-  pod 'amplify-tools', :path => '../'
-  
-  
-end
