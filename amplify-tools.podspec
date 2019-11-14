@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'amplify-tools'
-  s.version          = '0.3.0'
+  s.version          = '0.4.0'
   s.summary          = 'Installs Amplify CLI'
 
 # This description is used to generate tags and improve search results.
@@ -21,16 +21,83 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/nikhname/amplify-tools'
+  s.homepage         = 'https://github.com/nikhname/amplify-tools-spec'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Nikhil Lingireddy' => 'nikling@amazon.com' }
-  s.source           = { :git => 'git@github.com:nikhname/amplify-tools.git', :tag => s.version.to_s }
+  s.author           = { 'Nikhil Lingireddy' => 'nlingireddy@gmail.com' }
+  s.source           = { :git => 'https://github.com/nikhname/amplify-tools-spec.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.swift_versions = '4.0'
   s.source_files = 'Classes/*'
+  
+  s.script_phase = {
+    :name => 'Amplify',
+    :script =>
+'set -e
+export PATH=$PATH:`npm bin -g`
+
+cd ..
+if ! which node > /dev/null; then
+  echo "warning: Node is not installed. Vist https://nodejs.org/en/download/ to install it"
+elif ! test -f ./amplifyxc.config; then
+  npx amplify-app --platform ios
+fi
+
+. amplifyxc.config
+amplifyPush=$push
+amplifyModelgen=$modelgen
+amplifyProfile=$profile
+amplifyAccessKey=$accessKeyId
+amplifySecretKey=$secretAccessKey
+amplifyRegion=$region
+amplifyEnvName=$envName
+
+if $amplifyModelgen; then 
+  amplify-dev codegen model
+fi
+
+if [ -z "$amplifyAccessKey" ] || [ -z "$amplifySecretKey" ] || [ -z "$amplifyRegion" ]; then
+AWSCLOUDFORMATIONCONFIG="{\
+\"configLevel\":\"project\",\
+\"useProfile\":true,\
+\"profileName\":\"${amplifyProfile}\"\
+}"
+else 
+AWSCLOUDFORMATIONCONFIG="{\
+\"configLevel\":\"project\",\
+\"useProfile\":true,\
+\"profileName\":\"${amplifyProfile}\",\
+\"accessKeyId\":\"${amplifyAccessKeyId}\",\
+\"secretAccessKey\":\"${amplifySecretAccessKey}\",\
+\"region\":\"${amplifyRegion}\"\
+}"
+fi
+
+if [ -z "$amplifyEnvName" ]; then 
+AMPLIFY="{\
+\"envName\":\"amplify\"\
+}"
+else
+AMPLIFY="{\
+\"envName\":\"${amplifyEnvName}\"\
+}"
+fi
+
+PROVIDERS="{\
+\"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
+}"
+
+if $amplifyPush; then
+    if test -f ./amplify/.config/local-env-info.json; then
+        amplify-dev push --yes
+    else 
+        amplify-dev init --amplify $AMPLIFY --providers $PROVIDERS --yes
+    fi
+fi',
+    :execution_position => :before_compile
+  }
   
   # s.resource_bundles = {
   #   'amplify-tools' => ['amplify-tools/Assets/*.png']
