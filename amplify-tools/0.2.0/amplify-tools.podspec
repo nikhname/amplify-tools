@@ -42,7 +42,7 @@ cd ..
 if ! which node > /dev/null; then
   echo "warning: Node is not installed. Vist https://nodejs.org/en/download/ to install it"
 elif [ ! -f ./amplifyxc.config ]; then
-  npx amplify-app@canary --platform ios
+  npx amplify-app@canary --platform ios --path $PWD
 fi
 
 . amplifyxc.config
