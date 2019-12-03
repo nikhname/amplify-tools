@@ -18,13 +18,13 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Creates an amplify project in your next build. Generate models by setting modelgen in amplifyxc.config to true and running the build. Push your resources to the cloud by setting amplifyPush in amplifyxc.config to true and running the build.
                        DESC
 
-  s.homepage         = 'https://github.com/nikhname/amplify-tools-spec'
+  s.homepage         = 'https://github.com/aws-amplify/amplify-cli'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Nikhil Lingireddy' => 'nlingireddy@gmail.com' }
+  s.author           = { 'Amplify CLI' => 'amplify-cli@amazon.com' }
   s.source           = { :git => 'https://github.com/nikhname/amplify-tools-spec.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
@@ -42,7 +42,12 @@ cd ..
 if ! which node > /dev/null; then
   echo "warning: Node is not installed. Vist https://nodejs.org/en/download/ to install it"
 elif [ ! -f ./amplifyxc.config ]; then
-  npx amplify-app@canary --platform ios --path $PWD
+  if ! which amplify-app > /dev/null; then 
+    npm install -g amplify-app
+    amplify-app --platform ios --path $PWD
+  else 
+    amplify-app --platfrom ios --path $PWD 
+  fi
 fi
 
 . amplifyxc.config
