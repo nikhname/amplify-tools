@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'amplify-tools'
-  s.version          = '0.4.0'
+  s.version          = '0.2.1'
   s.summary          = 'Installs Amplify CLI'
 
 # This description is used to generate tags and improve search results.
